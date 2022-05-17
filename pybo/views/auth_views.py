@@ -19,10 +19,10 @@ def signup():
             user = User(username=form.username.data, password=generate_password_hash(form.password1.data), email=form.email.data)
             db.session.add(user)
             db.session.commit()
-            return  redirect(url_for('main.index'))
+            return redirect(url_for('main.index'))
         else:
             flash('이미 존재하는 사용자입니다.')
-    return  render_template('auth/signup.html', form=form)
+    return render_template('auth/signup.html', form=form)
 
 @bp.route('/login/', methods=('GET', 'POST'))
 def login():
