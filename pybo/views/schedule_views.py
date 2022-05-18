@@ -28,7 +28,7 @@ def create():
                             subject=form.subject.data,
                             content=form.content.data,
                             create_date=datetime.now(),
-                            user=g.user
+                            creator=g.user
                             )
         db.session.add(schedule)
         db.session.commit()

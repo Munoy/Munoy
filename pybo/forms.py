@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, PasswordField, DateTimeField
-from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
+from wtforms import StringField, TextAreaField, PasswordField, DateTimeLocalField
+from wtforms.validators import DataRequired, Length, EqualTo
 
 class QuestionForm(FlaskForm):
     subject = StringField('제목', validators=[DataRequired('제목이 없다.')])
@@ -19,8 +19,7 @@ class UserLoginForm(FlaskForm):
     password = PasswordField('비밀번호', validators=[DataRequired()])
 
 class ScheduleForm(FlaskForm):
-    start_date = DateTimeField('일정시작일')
-    end_date = DateTimeField('일정종료일')
+    start_date = DateTimeLocalField('일정시작일', validators=[DataRequired()], format='%Y-%m-%dT%H:%M')
+    end_date = DateTimeLocalField('일정종료일', validators=[DataRequired()], format='%Y-%m-%dT%H:%M')
     subject = StringField('제목', validators=[DataRequired('제목이 없다.')])
     content = TextAreaField('내용', validators=[DataRequired('내용이 없다.')])
-
