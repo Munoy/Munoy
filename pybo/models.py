@@ -22,7 +22,7 @@ class Schedule(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
-    creator = db.relationship('User')
+    creator = db.relationship('User', backref=db.backref('schedule_set'))
     start_date = db.Column(db.DateTime(), nullable=False)
     end_date = db.Column(db.DateTime(), nullable=False)
     subject = db.Column(db.String(200), nullable=False)

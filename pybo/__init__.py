@@ -33,12 +33,13 @@ def create_app():
     from . import models
 
     # Flask View
-    from .views import main_views, user_views, question_views, answer_views, auth_views
+    from .views import main_views, user_views, question_views, answer_views, auth_views, schedule_views
     app.register_blueprint(main_views.bp)   # /
     app.register_blueprint(user_views.bp)   # /user
     app.register_blueprint(question_views.bp)  # question
     app.register_blueprint(answer_views.bp) # answer
     app.register_blueprint(auth_views.bp) # auth
+    app.register_blueprint(schedule_views.bp) # schedule
 
     #필터
     from .filter import format_datetime

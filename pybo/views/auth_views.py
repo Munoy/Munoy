@@ -6,6 +6,9 @@ from pybo import db
 from pybo.forms import UserCreateForm, UserLoginForm
 from pybo.models import User
 
+import functools
+
+
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
@@ -16,7 +19,7 @@ def signup():
     if request.method == 'POST' and form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if not user:
-            user = User(username=form.username.data, password=generate_password_hash(form.password1.data), email=form.email.data)
+            user = User(username=form.username.data, password=generate_password_hash(form.password1.data))
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('main.index'))
@@ -31,13 +34,17 @@ def login():
         error = None
         user = User.query.filter_by(username=form.username.data).first()
         if not user:
-            error = "존재하지 않는 사용자 입니다."
+            error = "존재하지 않는 사용자입니다."
         elif not check_password_hash(user.password, form.password.data):
             error = "비밀번호가 올바르지 않습니다."
         if error is None:
             session.clear()
             session['user_id'] = user.id
-            return redirect(url_for('main.index'))
+            _next = request.args.get('next', '')
+            if _next:
+                return redirect(_next)
+            else:
+                return redirect(url_for('main.index'))
         flash(error)
     return render_template('auth/login.html', form=form)
 
@@ -55,3 +62,12 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = User.query.get(user_id)
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(*args, **kwargs):
+        if g.user is None:
+            _next = request.url if request.method == 'GET' else ''
+            return redirect(url_for('auth.login', next=_next))
+        return view(*args, **kwargs)
+    return wrapped_view
