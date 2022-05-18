@@ -16,6 +16,9 @@ from .. import db
 
 bp = Blueprint('schedule', __name__, url_prefix='/schedule')
 
+@bp.route('/list/')
+def _list():
+    return render_template('schedule/schedule_list.html')
 
 
 @bp.route('/create/', methods=('GET', 'POST'))
