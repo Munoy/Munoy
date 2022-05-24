@@ -27,11 +27,11 @@ def _list():
     if kw:
         search = '%%{}%%'.format(kw)
         sub_query = db.session.query(
-            Answer.question_id, Answer.content, User.username).join(
+            Answer.create_id, Answer.content, User.username).join(
             User, Answer.user_id == User.id).subquery()
         schedule_list = schedule_list \
             .join(User) \
-            .outerjoin(sub_query, sub_query.c.question_id == User.id) \
+            .outerjoin(sub_query, sub_query.c.create_id == User.id) \
             .filter(Schedule.subject.ilike(search) |    # 질문 제목
                     Schedule.content.ilike(search) |    # 질문 내용
                     User.username.ilike(search) |   # 질문 작성자
