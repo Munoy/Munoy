@@ -1,7 +1,7 @@
 /* section calendar */
 
 .sec_cal {
-    width: 360px;
+    width: 500px;
     margin: 0 auto;
     font-family: "NotoSansR";
 }
@@ -118,6 +118,8 @@
 }
 .container2__sidebar {
     width: 30%;
+    background: gray;
+
 }
 
 .container2__main {
