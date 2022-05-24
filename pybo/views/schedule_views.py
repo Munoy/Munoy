@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, url_for, g
 
-from pybo.models import Schedule
+from pybo.models import Schedule, Answer, User
 
 from pybo.forms import ScheduleForm
 
@@ -18,7 +18,30 @@ bp = Blueprint('schedule', __name__, url_prefix='/schedule')
 
 @bp.route('/list/')
 def _list():
-    return render_template('schedule/schedule_list.html')
+    # 입력 파라미터
+    page = request.args.get('page', type=int, default=1)
+    kw = request.args.get('kw', type=str, default='')
+
+    # 조회
+    schedule_list = Schedule.query.order_by(Schedule.create_date.desc())
+    if kw:
+        search = '%%{}%%'.format(kw)
+        sub_query = db.session.query(
+            Answer.question_id, Answer.content, User.username).join(
+            User, Answer.user_id == User.id).subquery()
+        schedule_list = schedule_list \
+            .join(User) \
+            .outerjoin(sub_query, sub_query.c.question_id == User.id) \
+            .filter(Schedule.subject.ilike(search) |    # 질문 제목
+                    Schedule.content.ilike(search) |    # 질문 내용
+                    User.username.ilike(search) |   # 질문 작성자
+                    sub_query.c.content.ilike(search) | # 답변 내용
+                    sub_query.c.username.ilike(search)     #답변 작성자
+        ) \
+        .distinct()
+
+    schedule_list = schedule_list.paginate(page, per_page=10)
+    return render_template('schedule/schedule_list.html',schedule_list=schedule_list, page=page, kw=kw)
 
 
 @bp.route('/create/', methods=('GET', 'POST'))
