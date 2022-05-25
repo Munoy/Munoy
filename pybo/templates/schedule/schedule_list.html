@@ -5,8 +5,18 @@
 <div class="container2">
     <!-- Sidebar -->
     <aside class="container2__sidebar">
-        <!-- 검색창 및 검색 내역 -->
-
+        <div class="row justify-content-end my-3">
+            <div class="col-4 input-group">
+                <input type="text" class="form-control kw" value="{{ kw or '' }}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="btn_search">일정검색</button>
+                </div>
+            </div>
+        </div>
+        <form id="searchForm" method="get" action="{{ url_for('schedule._list') }}">
+            <input type="hidden" id="kw" name="kw" vakye="{{ kw or '' }}">
+            <input type="hidden" id="page" name="page" value="{{ page }}">
+        </form>
     </aside>
 
     <!-- Main -->
