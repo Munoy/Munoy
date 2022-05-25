@@ -14,9 +14,48 @@
             </div>
         </div>
         <form id="searchForm" method="get" action="{{ url_for('schedule._list') }}">
-            <input type="hidden" id="kw" name="kw" vakye="{{ kw or '' }}">
+            <input type="hidden" id="kw" name="kw" value="{{ kw or '' }}">
             <input type="hidden" id="page" name="page" value="{{ page }}">
         </form>
+        <ul class="pagination justify-content-center">
+            <!--이전 페이지-->
+            {% if schedule_list.has_prev %}
+            <li class="page-item">
+                <a class="page-link" data-page="{{ question_list.prev_num }}" href="#">이전</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+            </li>
+            {% endif %}
+            {% for page_num in schedule_list.iter_pages() %}
+                {% if page_num %}
+                    {% if page_num != schedule_list.page %}
+                    <li class="page-item">
+                        <a class="page-link" data-page="{{ page_num }}"  href="#">{{ page_num }}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">{{ page_num }}</a>
+                    </li>
+                    {% endif %}
+                {% else %}
+                    <li class="disabled">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            <!--다음페이지-->
+            {% if schedule_list.has_next %}
+            <li class="page-item">
+                <a class="page-link" data-page="{{ schedule_list.next_num }}" href="#">다음</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+            </li>
+            {% endif %}
+        </ul>
     </aside>
 
     <!-- Main -->
@@ -136,6 +175,7 @@
             renderCalender(thisMonth);
         });
     }
+    // 버튼눌러 검색
     $(document).ready(function(){
         $(".page-link").on('click', function() {
             $("#page").val($(this).data("page"));
