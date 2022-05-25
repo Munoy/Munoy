@@ -25,7 +25,7 @@ class Shared_sch(db.Model):
     shared_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     shared = db.relationship('User')
     editable = db.Column(db.Integer, nullable=False)
-    end_date = db.Column(db.DateTime(), nullable=False)
+    expiry_date = db.Column(db.DateTime(), nullable=False)
 
 
 

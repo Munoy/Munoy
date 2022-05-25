@@ -23,3 +23,4 @@ class ScheduleForm(FlaskForm):
     end_date = DateTimeLocalField('일정종료일', validators=[DataRequired()], format='%Y-%m-%dT%H:%M')
     subject = StringField('제목', validators=[DataRequired('제목이 없다.')])
     content = TextAreaField('내용', validators=[DataRequired('내용이 없다.')])
+
