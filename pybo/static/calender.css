@@ -1,7 +1,7 @@
 /* section calendar */
 
 .sec_cal {
-    width: 90%;
+    width: 95%;
     margin: 0 auto;
     font-family: "NotoSansR";
 }
@@ -19,6 +19,7 @@
     width: 300px;
     text-align: center;
     line-height: 1;
+    width: 100%;
 }
 
 .sec_cal .cal_nav .nav {
@@ -56,10 +57,14 @@
 
 .sec_cal .cal_nav .go-prev::before {
     transform: rotate(-135deg);
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
 }
 
 .sec_cal .cal_nav .go-next::before {
     transform: rotate(45deg);
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
 }
 
 .sec_cal .cal_wrap {
@@ -70,8 +75,8 @@
 
 .sec_cal .cal_wrap .days {
     display: flex;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
 }
 
@@ -79,23 +84,38 @@
     top: 368px;
 }
 
-.sec_cal .cal_wrap .day {
+.sec_cal .cal_wrap .dates .day {
     display:flex;
     justify-content: left;
-    width: calc(100% / 7);
+    width: calc(93% / 7);
     text-align: left;
     color: #999;
     font-size: 12px;
-    border-radius:5px;
-    padding: 10px
+    border-radius:8px;
+    border: 1px solid #ddd;
+    padding: 8px;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    margin: 0.5%;
+    height: 110px;
+}
+.sec_cal .cal_wrap .dates .day:hover {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.05);
+    background: rgb(242 242 242);
+    border: 0px;
 }
 
-.current.today {background: rgb(242 242 242);}
+
+.current.today {
+    background: #dab8dc;
+    border: 0px;
+}
 
 .sec_cal .cal_wrap .dates {
     display: flex;
     flex-flow: wrap;
-    height: 600px;
+    height: 100%;
     /* Make it scrollable */
     overflow: auto;
     -ms-overflow-style: none; /* IE and Edge */
@@ -118,6 +138,19 @@
 .sec_cal .cal_wrap .day.disable {
     color: #ddd;
 }
+.days > .day {
+    display:flex;
+    justify-content: left;
+    width: calc(93% / 7);
+    text-align: left;
+    color: #999;
+    font-size: 12px;
+    border-radius:8px;
+    height: 35px;
+    padding: 8px;
+    margin: 0.5%;
+    border-bottom: 1px solid #ddd;
+}
 
 
 
@@ -133,6 +166,7 @@
 .container2__main {
     /* Take the remaining width */
     flex: 1;
+    height: 100%;
 
 
 }
