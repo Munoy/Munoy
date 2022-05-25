@@ -60,3 +60,9 @@ def create():
         db.session.commit()
         return redirect(url_for('main.index'))
     return render_template('schedule/schedule_form.html', form=form)
+
+@bp.route('/detail/<int:schedule_id>/')
+def detail(schedule_id):
+    form = ScheduleForm()
+    schedule = Schedule.query.get_or_404(schedule_id)
+    return render_template('schedule/schedule_detail.html', schedule=schedule, form=form)
