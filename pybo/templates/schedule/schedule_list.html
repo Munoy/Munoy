@@ -32,9 +32,9 @@
         <tr>
             <td>{{ schedule_list.total - ((schedule_list.page-1) * schedule_list.per_page) - loop.index0 }}</td>
             <td>
-                <a href="{{ url_for('schedule.create', schedule_id=schedule.id) }}">{{ schedule.subject }}</a>
+                <a href="{{ url_for('schedule.detail', schedule_id=schedule.id) }}">{{ schedule.subject }}</a>
                 {% if schedule.answer_set|length > 0 %}
-                <span class="text-danger small mx-2">{{ schedule.answer_set|length}}</span>
+                <span class="text-danger small mx-2">{{ schedule.answer_set|length }}</span>
 
                 {% endif %}
             </td>
