@@ -177,15 +177,15 @@
 
             // 지난달
             for (var i = prevDate - prevDay + 1; i <= prevDate; i++) {
-                calendar.innerHTML = calendar.innerHTML + '<div class="day prev disable">' + i + '</div>'
+                calendar.innerHTML = calendar.innerHTML + '<div class="day prev disable ' + i +'d' + '">' + i + '</div>'
             }
             // 이번달
             for (var i = 1; i <= nextDate; i++) {
-                calendar.innerHTML = calendar.innerHTML + '<div class="day current">' + i + '</div>'
+                calendar.innerHTML = calendar.innerHTML + '<div class="day current ' + i +'d' + '">' + i + '</div>'
             }
             // 다음달
             for (var i = 1; i <= (7 - nextDay == 7 ? 0 : 7 - nextDay); i++) {
-                calendar.innerHTML = calendar.innerHTML + '<div class="day next disable">' + i + '</div>'
+                calendar.innerHTML = calendar.innerHTML + '<div class="day next disable ' + i +'d' + '">' + i + '</div>'
             }
 
             // 오늘 날짜 표기

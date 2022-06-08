@@ -37,11 +37,10 @@ def _list():
                     User.username.ilike(search) |   # 질문 작성자
                     sub_query.c.content.ilike(search) | # 답변 내용
                     sub_query.c.username.ilike(search)     #답변 작성자
-        ) \
-        .distinct()
+        ).distinct()
 
     schedule_list = schedule_list.paginate(page, per_page=10)
-    return render_template('schedule/schedule_list.html',schedule_list=schedule_list, page=page, kw=kw)
+    return render_template('schedule/schedule_list.html', schedule_list=schedule_list, page=page, kw=kw)
 
 
 @bp.route('/create/', methods=('GET', 'POST'))
