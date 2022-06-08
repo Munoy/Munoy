@@ -32,11 +32,7 @@ def _list():
         schedule_list = schedule_list \
             .join(User) \
             .outerjoin(sub_query, sub_query.c.creator_id == User.id) \
-            .filter(Schedule.subject.ilike(search) |    # 질문 제목
-                    Schedule.content.ilike(search) |    # 질문 내용
-                    User.username.ilike(search) |   # 질문 작성자
-                    sub_query.c.content.ilike(search) | # 답변 내용
-                    sub_query.c.username.ilike(search)     #답변 작성자
+            .filter(Schedule.subject.ilike(search)
         ).distinct()
 
     schedule_list = schedule_list.paginate(page, per_page=10)
