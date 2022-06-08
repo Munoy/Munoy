@@ -17,45 +17,78 @@
             <input type="hidden" id="kw" name="kw" value="{{ kw or '' }}">
             <input type="hidden" id="page" name="page" value="{{ page }}">
         </form>
-        <ul class="pagination justify-content-center">
-            <!--이전 페이지-->
-            {% if schedule_list.has_prev %}
-            <li class="page-item">
-                <a class="page-link" data-page="{{ question_list.prev_num }}" href="#">이전</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-            </li>
-            {% endif %}
-            {% for page_num in schedule_list.iter_pages() %}
-                {% if page_num %}
-                    {% if page_num != schedule_list.page %}
-                    <li class="page-item">
-                        <a class="page-link" data-page="{{ page_num }}"  href="#">{{ page_num }}</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="#">{{ page_num }}</a>
-                    </li>
-                    {% endif %}
-                {% else %}
-                    <li class="disabled">
-                        <a class="page-link" href="#">...</a>
-                    </li>
+        <div class="container my-3">
+    <table class="table">
+        <thead>
+        <tr class="table-dark">
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if schedule_list %}
+        {% for schedule in schedule_list.items %}
+        <tr>
+            <td>{{ schedule_list.total - ((schedule_list.page-1) * schedule_list.per_page) - loop.index0 }}</td>
+            <td>
+                <a href="{{ url_for('schedule.create', schedule_id=schedule.id) }}">{{ schedule.subject }}</a>
+                {% if schedule.answer_set|length > 0 %}
+                <span class="text-danger small mx-2">{{ schedule.answer_set|length}}</span>
+
                 {% endif %}
-            {% endfor %}
-            <!--다음페이지-->
-            {% if schedule_list.has_next %}
-            <li class="page-item">
-                <a class="page-link" data-page="{{ schedule_list.next_num }}" href="#">다음</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-            </li>
-            {% endif %}
-        </ul>
+            </td>
+            <td>{{ schedule.create_date|datetime }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">질문이 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    <!-- 페이징 시작 -->
+    <ul class="pagination justify-content-center">
+        <!-- 이전페이지 -->
+        {% if schedule_list.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ schedule_list.prev_num }}">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">이전</a>
+        </li>
+        {% endif %}
+        {% for page_num in schedule_list.iter_pages() %}
+        {% if page_num %}
+        {% if page_num != schedule_list.page %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+        </li>
+        {% else %}
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="javascript:void(0)">{{ page_num }}</a>
+        </li>
+        {% endif %}
+        {% else %}
+        <li class="disabled">
+            <a class="page-link" href="javascript:void(0)">...</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if schedule_list.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ schedule_list.next_num }}">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
     </aside>
 
     <!-- Main -->
