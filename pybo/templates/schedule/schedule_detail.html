@@ -33,6 +33,11 @@
                     {{ schedule.creator.username }}
                 </div>
             </div>
+            <div class="my-3">
+                {% if g.user == schedule.creator %}
+                    <a href="{{ url_for('schedule.delete', schedule_id=schedule.id) }}" class="delete btn btn-sm btn-outline-secondary"">삭제</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

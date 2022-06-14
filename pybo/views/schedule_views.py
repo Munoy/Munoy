@@ -61,3 +61,14 @@ def detail(schedule_id):
     form = ScheduleForm()
     schedule = Schedule.query.get_or_404(schedule_id)
     return render_template('schedule/schedule_detail.html', schedule=schedule, form=form)
+
+@bp.route('/delete/<int:schedule_id>')
+@login_required
+def delete(schedule_id):
+    schedule = Schedule.query.get_or_404(schedule_id)
+    if g.user != schedule.creator:
+        flash('삭제권한이 없습니다')
+        return redirect(url_for('schedule.detail', schedule_id=schedule_id))
+    db.session.delete(schedule)
+    db.session.commit()
+    return redirect(url_for('schedule._list'))
