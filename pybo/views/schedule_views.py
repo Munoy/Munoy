@@ -36,6 +36,7 @@ def _list():
         ).distinct()
 
     schedule_list = schedule_list.paginate(page, per_page=10)
+
     return render_template('schedule/schedule_list.html', schedule_list=schedule_list, page=page, kw=kw)
 
 
