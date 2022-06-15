@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, url_for, g, flash
 
-from pybo.models import Schedule, Answer, User
+from pybo.models import Schedule, User
 
 from pybo.forms import ScheduleForm
 
