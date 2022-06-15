@@ -17,6 +17,7 @@ from .. import db
 bp = Blueprint('schedule', __name__, url_prefix='/schedule')
 
 @bp.route('/list/')
+@login_required
 def _list():
     # 입력 파라미터
     page = request.args.get('page', type=int, default=1)
